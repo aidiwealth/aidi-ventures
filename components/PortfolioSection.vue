@@ -12,7 +12,7 @@
   <section class="section portfolio-section">
     <div class="wrap">
       <div class="section-header reveal" :class="{ in: revealed }">
-        <span class="eyebrow">Our Portfolio</span>
+        <span class="eyebrow">Active Portfolio</span>
         <h2 class="t-display">
           Companies we've<br>backed <em>globally.</em>
         </h2>
