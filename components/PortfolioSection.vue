@@ -14,12 +14,11 @@
       <div class="section-header reveal" :class="{ in: revealed }">
         <span class="eyebrow">Our Portfolio</span>
         <h2 class="t-display">
-          Companies our global<br>clients <em>have invested in.</em>
+          Companies we've<br>backed <em>globally.</em>
         </h2>
         <p class="t-subhead" style="max-width: 560px; margin-top: 16px">
-          We have backed and accelerated over 100 ventures across Nigeria,
-          Kenya, Ghana, and the United States — spanning fintech, telecom,
-          SaaS, education, and digital commerce.
+          We have backed and accelerated over 100 ventures globally — spanning AI, fintech, telecom,
+          SaaS, and digital commerce.
         </p>
       </div>
 

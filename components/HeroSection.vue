@@ -77,8 +77,7 @@
 
         <div class="video-caption">
           <p class="video-caption-text">
-            Backing the firms, funds &amp; founders building the next era of
-            private wealth.
+            Backing resilient firms, funds and founders globally.
           </p>
           <a
             class="video-portfolio-link"
