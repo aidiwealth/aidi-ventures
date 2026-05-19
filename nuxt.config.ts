@@ -66,13 +66,13 @@ app: {
   // Public runtime config — overridable via NUXT_PUBLIC_* env vars at runtime.
   runtimeConfig: {
     public: {
-      calNamespace: '30min',
-      calLink: 'joinaidi/30min',
+      calNamespace: '45min',
+      calLink: 'joinaidi/45min',
       calBrandColor: '#0c2057',
       intercomAppId: 'vt8ulx74',
-      portfolioBaseUrl: 'https://joinaidi.com',
+      portfolioBaseUrl: 'https://aidiventures.com',
       parentSiteUrl: 'https://joinaidi.com',
-      portfolioPrivateUrl: 'https://joinaidi.com/products/private',
+      portfolioPrivateUrl: 'https://aidiventures.com/#portfolio',
       contactEmail: 'company@aidiventures.com',
       contactPhoneDisplay: '+1 (408) 422-1250',
       contactPhoneTel: '+14084221250',

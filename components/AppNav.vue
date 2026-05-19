@@ -6,7 +6,7 @@
 <template>
   <nav class="nav">
     <div class="nav-inner">
-      <a :href="parentSiteUrl" class="brand" aria-label="Aidi Group">
+      <a :href="portfolioBaseUrl" class="brand" aria-label="Aidi Group">
         <span class="brand-mark" aria-hidden="true">
           <AidiWordmark />
         </span>

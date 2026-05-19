@@ -9,7 +9,7 @@
 -->
 <template>
   <!-- ── Section header + grid ── -->
-  <section class="section portfolio-section">
+  <section class="section portfolio-section" id="portfolio">
     <div class="wrap">
       <div class="section-header reveal" :class="{ in: revealed }">
         <span class="eyebrow">Active Portfolio</span>
