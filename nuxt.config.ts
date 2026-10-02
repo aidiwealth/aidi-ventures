@@ -1,10 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
+  experimental: { appManifest: false },
   devtools: { enabled: true },
 
   // Global stylesheet — all design tokens, layout, components live here.
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.css', '~/assets/css/aidi-group.css'],
 
 app: {
   head: {
@@ -17,12 +18,12 @@ app: {
       {
         name: 'description',
         content:
-          'The venture investment arm of Aidi Ventures Group. Backing resilient firms, funds, and founders globally.'
+          'The venture investment arm of The Aidi Group. Backing resilient firms, funds, and founders globally.'
       },
       {
         name: 'keywords',
         content:
-          'Aidi Ventures, Aidi Ventures Group, venture capital, private wealth, emerging markets investing, Silicon Valley venture firm, fintech investing, African startup investors, San Jose venture capital, holding company'
+          'Aidi Ventures, The Aidi Group, venture capital, private wealth, emerging markets investing, Silicon Valley venture firm, fintech investing, African startup investors, San Jose venture capital, holding company'
       },
       // Open Graph (Facebook, LinkedIn, iMessage previews, etc.)
       { property: 'og:locale',          content: 'en_US' },
@@ -31,7 +32,7 @@ app: {
       {
         property: 'og:description',
         content:
-          'The venture investment arm of Aidi Ventures Group — backing resilient operators globally.'
+          'The venture investment arm of The Aidi Group — backing resilient operators globally.'
       },
       { property: 'og:url',             content: 'https://aidiventures.com/' },
       { property: 'og:site_name',       content: 'Aidi Ventures' },
@@ -45,7 +46,7 @@ app: {
       {
         name: 'twitter:description',
         content:
-          'The venture investment arm of Aidi Ventures Group — backing resilient operators globally.'
+          'The venture investment arm of The Aidi Group — backing resilient operators globally.'
       },
       { name: 'twitter:image',          content: 'https://aidiventures.com/og-image.png' }
     ],
@@ -71,7 +72,7 @@ app: {
       calBrandColor: '#0c2057',
       intercomAppId: 'vt8ulx74',
       portfolioBaseUrl: 'https://aidiventures.com',
-      parentSiteUrl: 'https://joinaidi.com',
+      parentSiteUrl: 'https://theaidigroup.com',
       portfolioPrivateUrl: 'https://aidiventures.com/#portfolio',
       contactEmail: 'company@aidiventures.com',
       contactPhoneDisplay: '+1 (408) 422-1250',

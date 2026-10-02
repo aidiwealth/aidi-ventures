@@ -2,7 +2,7 @@
   "name": "aidi-ventures",
   "version": "1.0.0",
   "private": true,
-  "description": "Aidi Ventures — The investment arm of Aidi Ventures Group.",
+  "description": "Aidi Ventures — The investment arm of The Aidi Group.",
   "type": "module",
   "scripts": {
     "build": "nuxt build",

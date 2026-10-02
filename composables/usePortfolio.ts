@@ -24,6 +24,8 @@ export interface PortfolioCompany {
   hq: string
   /** External link to the company's site. */
   url: string
+  /** Optional status badge on the card, e.g. "Exited". */
+  status?: string
 }
 
 const portfolioCompanies: PortfolioCompany[] = [
@@ -75,7 +77,8 @@ const portfolioCompanies: PortfolioCompany[] = [
     "desc": "Formal empowers security teams to enforce granular access policies to real-time data flows \u2014 providing a proxy layer that monitors and controls who can access what data and when.",
     "stage": "Series A",
     "hq": "California, USA",
-    "url": "https://www.joinformal.com"
+    "url": "https://www.joinformal.com",
+    "status": "Exited"
   },
   {
     "id": 7,

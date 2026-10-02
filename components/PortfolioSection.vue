@@ -32,7 +32,9 @@
           <div
             class="pf-card-img"
             :style="{ backgroundImage: `url('${company.image}')` }"
-          />
+          >
+            <span v-if="company.status" class="pf-card-status">{{ company.status }}</span>
+          </div>
           <div class="pf-card-body">
             <div class="pf-card-name">{{ company.name }}</div>
             <div class="pf-card-tag">{{ company.tag }}</div>

@@ -72,7 +72,7 @@
 
         <div class="video-tag">
           <span class="dot" aria-hidden="true" />
-          Private&nbsp;Markets
+          Venture&nbsp;Capital
         </div>
 
         <div class="video-caption">

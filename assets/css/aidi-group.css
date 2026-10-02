@@ -1,0 +1,52 @@
+/* The Aidi Group design language for aidiventures.com. Loaded after main.css. */
+:root {
+  --ink: #0c1a2e; --ink-mid: #1a4b72; --ink-soft: #1f1f1f; --ink-muted: #6b6b6b;
+  --cream: #ffffff; --cream-mid: #f5f5f3; --cream-dark: #e7e7e4;
+  --white: #ffffff; --blue: #1c547d;
+  --gold: #2675b0; --gold-light: #2da7c3; --gold-pale: #eef4f9;
+  --r: 0;
+  --type-headline: clamp(26px, 3.2vw, 42px);
+  --type-title: clamp(18px, 1.8vw, 22px);
+}
+body { background: #fff; }
+body::before, body::after { display: none; }
+*, *::before, *::after { border-radius: 0 !important; }
+
+/* Top bar: like theaidigroup.com when scrolled */
+.nav { background: #fff; border-bottom: 1px solid transparent; backdrop-filter: none; -webkit-backdrop-filter: none; transition: background .25s ease, border-color .25s ease; }
+.nav.scrolled { background: #f5f5f3; border-bottom-color: rgba(12,26,46,.08); }
+
+/* Type scale: Cormorant Garamond headings, Instrument Sans body, small spaced labels */
+.hero-title { font-weight: 400 !important; font-size: var(--type-headline) !important; line-height: 1.05 !important; letter-spacing: -0.03em !important; }
+.hero-title em, .stat-num em, .portfolio-section .t-display em { color: var(--blue) !important; font-style: italic; }
+.hero-tag { font-size: 14px !important; line-height: 1.7 !important; color: var(--ink-soft); }
+.portfolio-section .t-display { font-weight: 400 !important; font-size: var(--type-headline) !important; line-height: 1.05 !important; letter-spacing: -0.03em !important; }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-weight: 400 !important; font-size: 1.7rem !important; }
+.stat-label, .strip-label, .eyebrow, .video-tag { font-family: 'Instrument Sans', sans-serif !important; font-size: 10px !important; letter-spacing: .14em !important; text-transform: uppercase !important; }
+.pf-card-name { font-family: 'Cormorant Garamond', serif; font-weight: 500 !important; font-size: var(--type-title) !important; }
+.pf-card-tag { font-size: 13px !important; color: var(--ink-muted) !important; }
+
+/* Call to action: sans label + solid navy square with the icon, like theaidigroup.com */
+.btn, .btn-dark { background: none !important; border: 0 !important; padding: 0 !important; box-shadow: none !important; color: var(--ink) !important;
+  font-family: 'Instrument Sans', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: .01em; gap: 14px !important; flex-direction: row-reverse; transform: none !important; }
+.btn svg { box-sizing: border-box; width: 36px !important; height: 36px !important; padding: 10px; background: var(--ink); color: #fff; transition: background .2s ease, transform .2s ease; }
+.btn:hover svg { background: var(--gold); transform: translate(2px, -2px); }
+.btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+.nav-cta { border-radius: 0 !important; }
+
+/* Video tint in group blues */
+.video-tint { background: linear-gradient(135deg, rgba(38,117,176,.30), rgba(12,26,46,.55)) !important; }
+@media (prefers-reduced-motion: reduce) { .btn svg { transition: none; } .btn:hover svg { transform: none; } }
+
+/* Status badge on portfolio cards (e.g. Exited) */
+.pf-card-img { position: relative; }
+.pf-card-status { position: absolute; top: 10px; left: 10px; font-family: 'Instrument Sans', sans-serif; font-size: 9px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: #4a4a4a; background: #f5f5f3; padding: 3px 8px; }
+
+/* video badges in group grey (were cream) */
+.video-tag { background: rgba(245,245,243,.94) !important; }
+.video-portfolio-link { background: rgba(245,245,243,.94) !important; color: var(--ink) !important; }
+.video-portfolio-link:hover { background: #fff !important; }
+
+/* Let clicks on the icon reach the button (Cal.com listens on the button itself) */
+.btn svg, .btn svg * { pointer-events: none; }
+.btn { cursor: pointer; }

@@ -23,7 +23,7 @@
           target="_blank"
           rel="noopener"
         >
-          joinaidi.com
+          theaidigroup.com
           <svg
             viewBox="0 0 16 16"
             fill="none"

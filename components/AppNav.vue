@@ -4,7 +4,7 @@
   - Right: "For Investors" CTA pill, also linking to parent.
 -->
 <template>
-  <nav class="nav">
+  <nav class="nav" :class="{ scrolled }">
     <div class="nav-inner">
       <a :href="portfolioBaseUrl" class="brand" aria-label="Aidi Group">
         <span class="brand-mark" aria-hidden="true">
@@ -28,4 +28,8 @@
 <script setup lang="ts">
 const config = useRuntimeConfig()
 const parentSiteUrl = config.public.parentSiteUrl as string
+const scrolled = ref(false)
+const onScroll = (): void => { scrolled.value = window.scrollY > 10 }
+onMounted(() => { onScroll(); window.addEventListener('scroll', onScroll, { passive: true }) })
+onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
 </script>
