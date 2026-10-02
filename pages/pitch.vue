@@ -47,7 +47,12 @@
           <label>Team<textarea v-model="form.team" maxlength="3000" rows="3" placeholder="Founders and relevant experience" /></label>
           <label class="check"><input v-model="form.female_founder" type="checkbox"> At least one founder is a woman (optional)</label>
           <div class="hp" aria-hidden="true"><label>Leave this empty<input v-model="form.website_url_confirm" tabindex="-1" autocomplete="off"></label></div>
-          <div v-if="siteKey" ref="captchaEl" class="cf-turnstile" :data-sitekey="siteKey" data-theme="light" data-appearance="interaction-only" />
+          <div v-if="siteKey" class="human">
+            <div ref="captchaEl" />
+            <p class="human-status" :data-state="captchaState" aria-live="polite">
+              <span class="dot" aria-hidden="true" />{{ captchaState === 'ok' ? 'Verified as human · protected by Cloudflare Turnstile' : captchaState === 'error' ? 'We could not run the human check. Refresh the page and try again.' : 'Checking you are human…' }}
+            </p>
+          </div>
           <p class="small">By submitting, you agree that Aidi Ventures stores these details to review your pitch. See our <a href="https://theaidigroup.com/legal" target="_blank" rel="noopener">privacy notice</a>.</p>
           <button class="btn btn-dark" type="submit" :disabled="busy">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><line x1="3" y1="13" x2="13" y2="3" /><polyline points="6 3 13 3 13 10" /></svg>
@@ -70,7 +75,42 @@ useHead({
 const config = useRuntimeConfig()
 const siteKey = config.public.turnstileSiteKey as string
 const endpoint = config.public.pitchEndpoint as string
-if (siteKey) useHead({ script: [{ src: 'https://challenges.cloudflare.com/turnstile/v0/api.js', async: true, defer: true }] })
+if (siteKey) useHead({ script: [{ src: 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit', async: true, defer: true }] })
+
+// Turnstile, rendered after hydration so Vue never removes it. Invisible unless Cloudflare needs an interaction.
+interface Turnstile {
+  render: (el: HTMLElement, o: Record<string, unknown>) => string
+  reset: (id?: string) => void
+  remove: (id?: string) => void
+}
+const captchaState = ref<'checking' | 'ok' | 'error'>('checking')
+const captchaToken = ref('')
+let widgetId: string | undefined
+onMounted(() => {
+  if (!siteKey) return
+  let tries = 0
+  const timer = setInterval(() => {
+    const ts = (window as unknown as { turnstile?: Turnstile }).turnstile
+    if (ts && captchaEl.value) {
+      clearInterval(timer)
+      widgetId = ts.render(captchaEl.value, {
+        sitekey: siteKey,
+        theme: 'light',
+        appearance: 'interaction-only',
+        'refresh-expired': 'auto',
+        callback: (token: string) => { captchaToken.value = token; captchaState.value = 'ok' },
+        'expired-callback': () => { captchaToken.value = ''; captchaState.value = 'checking' },
+        'error-callback': () => { captchaToken.value = ''; captchaState.value = 'error' }
+      })
+    } else if (++tries > 100) { clearInterval(timer); captchaState.value = 'error' }
+  }, 100)
+})
+onBeforeUnmount(() => { const ts = (window as unknown as { turnstile?: Turnstile }).turnstile; if (ts && widgetId) ts.remove(widgetId) })
+function resetCaptcha() {
+  const ts = (window as unknown as { turnstile?: Turnstile }).turnstile
+  captchaToken.value = ''; captchaState.value = 'checking'
+  if (ts && widgetId) ts.reset(widgetId)
+}
 
 const form = reactive({
   founder_name: '', email: '', company: '', website: '', one_liner: '', stage: '', sector: '', country: '',
@@ -81,14 +121,10 @@ const sent = ref(false)
 const error = ref('')
 const captchaEl = ref<HTMLElement | null>(null)
 
-// Turnstile runs in the background; its token can take a moment to appear. Wait up to 6 seconds.
+// The check usually finishes before the founder is done typing; if not, wait up to 8 seconds for it.
 async function turnstileToken(): Promise<string> {
-  for (let i = 0; i < 30; i++) {
-    const v = (captchaEl.value?.querySelector('input[name="cf-turnstile-response"]') as HTMLInputElement | null)?.value
-    if (v) return v
-    await new Promise((r) => setTimeout(r, 200))
-  }
-  return ''
+  for (let i = 0; i < 40 && !captchaToken.value && captchaState.value !== 'error'; i++) await new Promise((r) => setTimeout(r, 200))
+  return captchaToken.value
 }
 
 async function submit() {
@@ -117,9 +153,11 @@ async function submit() {
       throw new Error(data?.data?.error?.message || 'We could not send your pitch. Please try again.')
     }
     sent.value = true
+    captchaToken.value = ''
     window.scrollTo({ top: 0, behavior: 'smooth' })
   } catch (e) {
     error.value = e instanceof Error ? e.message : 'We could not send your pitch. Please try again.'
+    if (siteKey) resetCaptcha() // each token works once
   } finally {
     busy.value = false
   }
@@ -132,7 +170,14 @@ async function submit() {
 .back { display: inline-block; font-size: 13px; color: var(--ink-muted); text-decoration: none; margin-bottom: 28px; }
 .back:hover { color: var(--ink); }
 .home { display: inline-block; margin-top: 18px; color: var(--blue); font-weight: 500; text-decoration: none; }
-.cf-turnstile:empty { display: none; }
+.human { display: flex; flex-direction: column; gap: 8px; }
+.human-status { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--ink-muted); margin: 0; }
+.human-status .dot { width: 8px; height: 8px; background: #b9c3cc; flex: none; }
+.human-status[data-state='checking'] .dot { background: var(--gold); animation: pulse 1.2s ease-in-out infinite; }
+.human-status[data-state='ok'] { color: #1f7a4d; } .human-status[data-state='ok'] .dot { background: #1f7a4d; }
+.human-status[data-state='error'] { color: #b42318; } .human-status[data-state='error'] .dot { background: #b42318; }
+@keyframes pulse { 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { .human-status .dot { animation: none !important; } }
 .eyebrow-l { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-muted); margin: 0 0 12px; }
 .pitch-title { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(26px, 3.2vw, 42px); line-height: 1.05; letter-spacing: -0.03em; color: var(--ink); margin: 0 0 16px; }
 .pitch-title em { color: var(--blue); font-style: italic; }
