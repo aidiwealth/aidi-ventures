@@ -41,6 +41,13 @@
           </svg>
           Talk to us
         </button>
+        <a class="btn btn-dark" href="/pitch">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <line x1="3" y1="13" x2="13" y2="3" />
+            <polyline points="6 3 13 3 13 10" />
+          </svg>
+          Pitch us
+        </a>
       </div>
 
       <div class="hero-stats">

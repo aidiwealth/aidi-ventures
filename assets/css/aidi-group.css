@@ -50,3 +50,7 @@ body::before, body::after { display: none; }
 /* Let clicks on the icon reach the button (Cal.com listens on the button itself) */
 .btn svg, .btn svg * { pointer-events: none; }
 .btn { cursor: pointer; }
+
+/* Two CTAs side by side in the hero */
+.hero-actions { gap: 32px !important; }
+.btn { text-decoration: none; display: inline-flex !important; align-items: center !important; line-height: 1 !important; }
