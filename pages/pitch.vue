@@ -6,6 +6,7 @@
     <AppNav />
     <main class="pitch">
       <div class="pitch-inner">
+        <NuxtLink to="/" class="back">← Back to Aidi Ventures</NuxtLink>
         <p class="eyebrow-l">Aidi Ventures</p>
         <h1 class="pitch-title">Pitch <em>us</em></h1>
         <p class="pitch-lede">We back exceptional African and diaspora technical founders building AI, infrastructure and financial services for the world, from pre-seed to Series A. Open to founders of every background. A partner reads every pitch.</p>
@@ -13,6 +14,7 @@
         <div v-if="sent" class="done" role="status">
           <h2>Thank you.</h2>
           <p>We have received your pitch and sent a confirmation to {{ form.email }}. We will be in touch if there is a fit.</p>
+          <NuxtLink to="/" class="home">Return to homepage →</NuxtLink>
         </div>
 
         <form v-else class="form" novalidate @submit.prevent="submit">
@@ -45,7 +47,7 @@
           <label>Team<textarea v-model="form.team" maxlength="3000" rows="3" placeholder="Founders and relevant experience" /></label>
           <label class="check"><input v-model="form.female_founder" type="checkbox"> At least one founder is a woman (optional)</label>
           <div class="hp" aria-hidden="true"><label>Leave this empty<input v-model="form.website_url_confirm" tabindex="-1" autocomplete="off"></label></div>
-          <div v-if="siteKey" ref="captchaEl" class="cf-turnstile" :data-sitekey="siteKey" data-theme="light" />
+          <div v-if="siteKey" ref="captchaEl" class="cf-turnstile" :data-sitekey="siteKey" data-theme="light" data-appearance="interaction-only" />
           <p class="small">By submitting, you agree that Aidi Ventures stores these details to review your pitch. See our <a href="https://theaidigroup.com/legal" target="_blank" rel="noopener">privacy notice</a>.</p>
           <button class="btn btn-dark" type="submit" :disabled="busy">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><line x1="3" y1="13" x2="13" y2="3" /><polyline points="6 3 13 3 13 10" /></svg>
@@ -79,6 +81,16 @@ const sent = ref(false)
 const error = ref('')
 const captchaEl = ref<HTMLElement | null>(null)
 
+// Turnstile runs in the background; its token can take a moment to appear. Wait up to 6 seconds.
+async function turnstileToken(): Promise<string> {
+  for (let i = 0; i < 30; i++) {
+    const v = (captchaEl.value?.querySelector('input[name="cf-turnstile-response"]') as HTMLInputElement | null)?.value
+    if (v) return v
+    await new Promise((r) => setTimeout(r, 200))
+  }
+  return ''
+}
+
 async function submit() {
   error.value = ''
   if (!form.founder_name || !form.email || !form.company || !form.one_liner || !form.stage || form.description.length < 20) {
@@ -86,9 +98,9 @@ async function submit() {
     return
   }
   const raising = form.raising_usd.replace(/[^0-9]/g, '')
-  const token = (captchaEl.value?.querySelector('input[name="cf-turnstile-response"]') as HTMLInputElement | null)?.value
-  if (siteKey && !token) { error.value = 'Please complete the check above the button.'; return }
   busy.value = true
+  const token = siteKey ? await turnstileToken() : ''
+  if (siteKey && !token) { busy.value = false; error.value = 'We could not confirm you are human. Please wait a moment and try again.'; return }
   try {
     const res = await fetch(endpoint, {
       method: 'POST',
@@ -117,6 +129,10 @@ async function submit() {
 <style scoped>
 .pitch { padding: 140px var(--gutter) 96px; background: #fff; }
 .pitch-inner { max-width: 760px; margin: 0 auto; }
+.back { display: inline-block; font-size: 13px; color: var(--ink-muted); text-decoration: none; margin-bottom: 28px; }
+.back:hover { color: var(--ink); }
+.home { display: inline-block; margin-top: 18px; color: var(--blue); font-weight: 500; text-decoration: none; }
+.cf-turnstile:empty { display: none; }
 .eyebrow-l { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-muted); margin: 0 0 12px; }
 .pitch-title { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: clamp(26px, 3.2vw, 42px); line-height: 1.05; letter-spacing: -0.03em; color: var(--ink); margin: 0 0 16px; }
 .pitch-title em { color: var(--blue); font-style: italic; }
