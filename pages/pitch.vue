@@ -50,7 +50,7 @@
           <div v-if="siteKey" class="human">
             <div ref="captchaEl" />
             <p class="human-status" :data-state="captchaState" aria-live="polite">
-              <span class="dot" aria-hidden="true" />{{ captchaState === 'ok' ? 'Verified as human · protected by Cloudflare Turnstile' : captchaState === 'error' ? 'We could not run the human check. Refresh the page and try again.' : 'Checking you are human…' }}
+              <span class="dot" aria-hidden="true" />{{ captchaState === 'ok' ? 'Verified as human · protected by Cloudflare Turnstile' : captchaState === 'error' ? 'We could not run the human check' + (captchaCode ? ' (code ' + captchaCode + ')' : '') + '. Refresh the page and try again.' : 'Checking you are human…' }}
             </p>
           </div>
           <p class="small">By submitting, you agree that Aidi Ventures stores these details to review your pitch. See our <a href="https://theaidigroup.com/legal" target="_blank" rel="noopener">privacy notice</a>.</p>
@@ -85,6 +85,7 @@ interface Turnstile {
 }
 const captchaState = ref<'checking' | 'ok' | 'error'>('checking')
 const captchaToken = ref('')
+const captchaCode = ref('')
 let widgetId: string | undefined
 onMounted(() => {
   if (!siteKey) return
@@ -100,7 +101,7 @@ onMounted(() => {
         'refresh-expired': 'auto',
         callback: (token: string) => { captchaToken.value = token; captchaState.value = 'ok' },
         'expired-callback': () => { captchaToken.value = ''; captchaState.value = 'checking' },
-        'error-callback': () => { captchaToken.value = ''; captchaState.value = 'error' }
+        'error-callback': (code: string) => { captchaToken.value = ''; captchaCode.value = String(code ?? ''); captchaState.value = 'error'; console.warn('[turnstile] error', code); return true }
       })
     } else if (++tries > 100) { clearInterval(timer); captchaState.value = 'error' }
   }, 100)
