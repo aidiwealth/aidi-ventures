@@ -19,7 +19,8 @@
         <p class="gf-statement">Backing resilient firms, funds and founders globally.</p>
         <a class="gf-email" :href="'mailto:' + contactEmail">{{ contactEmail }}</a>
         <nav class="gf-links" aria-label="Footer">
-          <a href="#portfolio">Portfolio</a>
+          <a href="/#portfolio">Portfolio</a>
+          <a href="/pitch">Pitch us</a>
           <a :href="groupUrl" target="_blank" rel="noopener">The Aidi Group</a>
           <a href="https://theaidigroup.com/legal" target="_blank" rel="noopener">Legal</a>
         </nav>

@@ -77,6 +77,8 @@ app: {
       contactEmail: 'company@aidiventures.com',
       contactPhoneDisplay: '+1 (408) 422-1250',
       contactPhoneTel: '+14084221250',
+      pitchEndpoint: 'https://app.theaidigroup.com/api/public/pitch',
+      turnstileSiteKey: '',
     },
   },
 })
