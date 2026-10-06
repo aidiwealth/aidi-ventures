@@ -36,26 +36,36 @@
               </select>
             </label>
             <label>Sector<input v-model="form.sector" maxlength="100" placeholder="e.g. Fintech, AI"></label>
-            <label>Country of operation<input v-model="form.country" maxlength="100"></label>
-      <fieldset v-if="form.country" class="ftype"><legend>What are you raising?</legend>
-        <label class="opt"><input v-model="form.funding_type" type="radio" value="equity"> Equity investment</label>
-        <label class="opt"><input v-model="form.funding_type" type="radio" value="loan"> Venture debt / loan</label></fieldset>
-      <template v-if="form.funding_type === 'loan'">
-        <p class="lnote">Loans are assessed by our credit team. We check the business and the founders' credit history (with your consent) through licensed credit bureaus.</p>
-        <label class="field">Loan amount<input v-model="form.loan_amount" type="number" min="1" required></label>
-        <label class="field">Currency<select v-model="form.loan_currency"><option>NGN</option><option>USD</option></select></label>
-        <label class="field">Tenor (months)<input v-model="form.loan_tenor_months" type="number" min="1" max="120"></label>
-        <label class="field">Average monthly revenue<input v-model="form.monthly_revenue" type="number" min="0"></label>
-        <label class="field">What the loan is for<textarea v-model="form.loan_purpose" rows="3" maxlength="2000" /></label>
-        <label class="field">Phone<input v-model="form.phone" type="tel" maxlength="30"></label>
+            <label>Country of operation<select v-model="form.country" required><option value="" disabled>Choose a country</option><option v-for="c in COUNTRIES" :key="c" :value="c">{{ c }}</option></select></label>
+      <div v-if="form.country" class="ftype">
+        <p class="ftq">What are you raising?</p>
+        <div class="fcards" role="radiogroup" aria-label="What are you raising?">
+          <button type="button" role="radio" :aria-checked="form.funding_type === 'equity'" :class="{ on: form.funding_type === 'equity' }" @click="form.funding_type = 'equity'"><i /><b>Equity investment</b><span>Pre-seed to Series A, in exchange for a stake in your company.</span></button>
+          <button type="button" role="radio" :aria-checked="form.funding_type === 'loan'" :class="{ on: form.funding_type === 'loan' }" @click="form.funding_type = 'loan'"><i /><b>Venture debt / loan</b><span>Working capital or growth financing, repaid over an agreed term.</span></button>
+        </div>
+      </div>
+      <div v-if="form.funding_type === 'loan'" class="loanbox">
+        <p class="lhead">Loan details</p>
+        <p class="lnote">Loans are assessed by our credit team. We check the business and the founders' credit history, with your consent, through licensed credit bureaus.</p>
+        <div class="lgrid">
+          <label class="field">Loan amount<input v-model="form.loan_amount" type="number" min="1" required></label>
+          <label class="field">Currency<select v-model="form.loan_currency"><option>NGN</option><option>USD</option></select></label>
+          <label class="field">Tenor (months)<input v-model="form.loan_tenor_months" type="number" min="1" max="120" placeholder="e.g. 12"></label>
+          <label class="field">Average monthly revenue<input v-model="form.monthly_revenue" type="number" min="0"></label>
+          <label class="field">Phone<input v-model="form.phone" type="tel" maxlength="30"></label>
+          <label class="field wide">What the loan is for<textarea v-model="form.loan_purpose" rows="3" maxlength="2000" /></label>
+        </div>
         <template v-if="form.country && /nigeria/i.test(form.country)">
-          <label class="field">Business RC number<input v-model="form.rc_number" maxlength="20" placeholder="e.g. RC123456"></label>
-          <label class="field">Founder BVN<input v-model="form.bvn" inputmode="numeric" pattern="\d{11}" maxlength="11" required placeholder="11 digits"></label>
-          <label class="field">Founder NIN<input v-model="form.nin" inputmode="numeric" pattern="\d{11}" maxlength="11" placeholder="11 digits"></label>
-          <label class="field">Founder date of birth<input v-model="form.dob" type="date"></label>
+          <p class="lhead sub">Credit check (Nigeria)</p>
+          <div class="lgrid">
+            <label class="field">Business RC number<input v-model="form.rc_number" maxlength="20" placeholder="e.g. RC123456"></label>
+            <label class="field">Founder BVN<input v-model="form.bvn" inputmode="numeric" pattern="\d{11}" maxlength="11" required placeholder="11 digits"></label>
+            <label class="field">Founder NIN<input v-model="form.nin" inputmode="numeric" pattern="\d{11}" maxlength="11" placeholder="11 digits"></label>
+            <label class="field">Founder date of birth<input v-model="form.dob" type="date"></label>
+          </div>
           <p class="lnote">By sending, you consent to Aidi Ventures checking your business and personal credit history for this loan request. Your BVN and NIN are stored encrypted and used only for this purpose.</p>
         </template>
-      </template>
+      </div>
           </div>
           <div class="two">
             <label>Raising (USD)<input v-model="form.raising_usd" inputmode="numeric" placeholder="e.g. 1500000"></label>
@@ -86,6 +96,7 @@
 </template>
 
 <script setup lang="ts">
+const COUNTRIES = ["Nigeria", "Ghana", "Kenya", "South Africa", "Egypt", "Rwanda", "Senegal", "Côte d'Ivoire", "Morocco", "Ethiopia", "Uganda", "Tanzania", "Cameroon", "Zambia", "Zimbabwe", "Botswana", "Namibia", "Tunisia", "Algeria", "Benin", "Togo", "Sierra Leone", "Liberia", "Gambia", "Mali", "Burkina Faso", "Niger", "Mozambique", "Malawi", "Angola", "Democratic Republic of the Congo", "Mauritius", "United States", "United Kingdom", "Canada", "France", "Germany", "Netherlands", "Ireland", "United Arab Emirates", "India", "Singapore", "Other"]
 useHead({
   title: 'Pitch us — Aidi Ventures',
   meta: [{ name: 'description', content: 'Pitch Aidi Ventures. A partner reads every submission.' }],
@@ -220,5 +231,18 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .done h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 28px; color: var(--ink); margin: 0 0 8px; }
 .done p { margin: 0; color: var(--ink-soft); }
 @media (max-width: 760px) { .two, .three { grid-template-columns: 1fr; } .pitch { padding-top: 110px; } }
-.ftype { border: 0; padding: 0; margin: 4px 0; display: flex; gap: 18px; flex-wrap: wrap; } .ftype legend { font-weight: 600; margin-bottom: 6px; } .ftype .opt { display: flex; gap: 6px; align-items: center; } .ftype input { width: auto; } .lnote { font-size: 13px; opacity: .75; margin: 2px 0; }
+.ftype, .loanbox { grid-column: 1 / -1; flex-basis: 100%; width: 100%; }
+.ftq { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: #6b7280; margin: 6px 0 10px; }
+.fcards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.fcards button { position: relative; text-align: left; background: #fff; border: 1px solid #d6d9de; padding: 18px 18px 18px 50px; cursor: pointer; font: inherit; color: inherit; display: flex; flex-direction: column; gap: 4px; transition: border-color .15s, box-shadow .15s; }
+.fcards button:hover { border-color: #1c4f9c; }
+.fcards button.on { border-color: #1c4f9c; box-shadow: 0 0 0 1px #1c4f9c; background: #f5f8fd; }
+.fcards button i { position: absolute; left: 18px; top: 20px; width: 18px; height: 18px; border: 1.5px solid #9aa3ad; border-radius: 50%; }
+.fcards button.on i { border-color: #1c4f9c; } .fcards button.on i::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: #1c4f9c; }
+.fcards b { font-size: 16px; font-weight: 600; color: #0c1a2e; } .fcards span { font-size: 14px; color: #6b7280; line-height: 1.45; }
+.loanbox { border: 1px solid #e3e6ea; background: #fafbfc; padding: 20px 22px; display: flex; flex-direction: column; gap: 12px; }
+.lhead { font-size: 16px; font-weight: 600; color: #0c1a2e; margin: 0; } .lhead.sub { font-size: 14px; margin-top: 6px; }
+.lnote { font-size: 13.5px; color: #6b7280; margin: 0; line-height: 1.5; }
+.lgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 20px; } .lgrid .wide { grid-column: 1 / -1; }
+@media (max-width: 760px) { .fcards, .lgrid { grid-template-columns: 1fr; } }
 </style>
