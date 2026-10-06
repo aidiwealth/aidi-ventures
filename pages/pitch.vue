@@ -37,6 +37,25 @@
             </label>
             <label>Sector<input v-model="form.sector" maxlength="100" placeholder="e.g. Fintech, AI"></label>
             <label>Country of operation<input v-model="form.country" maxlength="100"></label>
+      <fieldset v-if="form.country" class="ftype"><legend>What are you raising?</legend>
+        <label class="opt"><input v-model="form.funding_type" type="radio" value="equity"> Equity investment</label>
+        <label class="opt"><input v-model="form.funding_type" type="radio" value="loan"> Venture debt / loan</label></fieldset>
+      <template v-if="form.funding_type === 'loan'">
+        <p class="lnote">Loans are assessed by our credit team. We check the business and the founders' credit history (with your consent) through licensed credit bureaus.</p>
+        <label class="field">Loan amount<input v-model="form.loan_amount" type="number" min="1" required></label>
+        <label class="field">Currency<select v-model="form.loan_currency"><option>NGN</option><option>USD</option></select></label>
+        <label class="field">Tenor (months)<input v-model="form.loan_tenor_months" type="number" min="1" max="120"></label>
+        <label class="field">Average monthly revenue<input v-model="form.monthly_revenue" type="number" min="0"></label>
+        <label class="field">What the loan is for<textarea v-model="form.loan_purpose" rows="3" maxlength="2000" /></label>
+        <label class="field">Phone<input v-model="form.phone" type="tel" maxlength="30"></label>
+        <template v-if="form.country && /nigeria/i.test(form.country)">
+          <label class="field">Business RC number<input v-model="form.rc_number" maxlength="20" placeholder="e.g. RC123456"></label>
+          <label class="field">Founder BVN<input v-model="form.bvn" inputmode="numeric" pattern="\d{11}" maxlength="11" required placeholder="11 digits"></label>
+          <label class="field">Founder NIN<input v-model="form.nin" inputmode="numeric" pattern="\d{11}" maxlength="11" placeholder="11 digits"></label>
+          <label class="field">Founder date of birth<input v-model="form.dob" type="date"></label>
+          <p class="lnote">By sending, you consent to Aidi Ventures checking your business and personal credit history for this loan request. Your BVN and NIN are stored encrypted and used only for this purpose.</p>
+        </template>
+      </template>
           </div>
           <div class="two">
             <label>Raising (USD)<input v-model="form.raising_usd" inputmode="numeric" placeholder="e.g. 1500000"></label>
@@ -113,7 +132,7 @@ function resetCaptcha() {
   if (ts && widgetId) ts.reset(widgetId)
 }
 
-const form = reactive({
+const form = reactive({ funding_type: 'equity', loan_amount: '', loan_currency: 'NGN', loan_tenor_months: '', loan_purpose: '', monthly_revenue: '', rc_number: '', bvn: '', nin: '', dob: '', phone: '',
   founder_name: '', email: '', company: '', website: '', one_liner: '', stage: '', sector: '', country: '',
   raising_usd: '', deck_url: '', description: '', traction: '', team: '', female_founder: false, website_url_confirm: ''
 })
@@ -201,4 +220,5 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .done h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 28px; color: var(--ink); margin: 0 0 8px; }
 .done p { margin: 0; color: var(--ink-soft); }
 @media (max-width: 760px) { .two, .three { grid-template-columns: 1fr; } .pitch { padding-top: 110px; } }
+.ftype { border: 0; padding: 0; margin: 4px 0; display: flex; gap: 18px; flex-wrap: wrap; } .ftype legend { font-weight: 600; margin-bottom: 6px; } .ftype .opt { display: flex; gap: 6px; align-items: center; } .ftype input { width: auto; } .lnote { font-size: 13px; opacity: .75; margin: 2px 0; }
 </style>
