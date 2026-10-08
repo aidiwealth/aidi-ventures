@@ -4,5 +4,8 @@
   via nuxt.config.ts.
 -->
 <template>
-  <NuxtPage />
+  <div>
+    <NuxtPage />
+    <CookieConsent site="aidiventures.com" />
+  </div>
 </template>
