@@ -46,7 +46,7 @@
       </div>
       <div v-if="form.funding_type === 'loan'" class="loanbox">
         <p class="lhead">Loan details</p>
-        <p class="lnote">Loans are assessed by our credit team. We check the business and the founders' credit history, with your consent, through licensed credit bureaus.</p>
+        <p class="lnote">Loans are assessed by our credit team. We will be in touch about next steps after we review your request.</p>
         <div class="lgrid">
           <label class="field">Loan amount<input v-model="form.loan_amount" type="number" min="1" required></label>
           <label class="field">Currency<select v-model="form.loan_currency"><option>NGN</option><option>USD</option></select></label>
@@ -55,16 +55,6 @@
           <label class="field">Phone<input v-model="form.phone" type="tel" maxlength="30"></label>
           <label class="field wide">What the loan is for<textarea v-model="form.loan_purpose" rows="3" maxlength="2000" /></label>
         </div>
-        <template v-if="form.country && /nigeria/i.test(form.country)">
-          <p class="lhead sub">Credit check (Nigeria)</p>
-          <div class="lgrid">
-            <label class="field">Business RC number<input v-model="form.rc_number" maxlength="20" placeholder="e.g. RC123456"></label>
-            <label class="field">Founder BVN<input v-model="form.bvn" inputmode="numeric" pattern="\d{11}" maxlength="11" required placeholder="11 digits"></label>
-            <label class="field">Founder NIN<input v-model="form.nin" inputmode="numeric" pattern="\d{11}" maxlength="11" placeholder="11 digits"></label>
-            <label class="field">Founder date of birth<input v-model="form.dob" type="date"></label>
-          </div>
-          <p class="lnote">By sending, you consent to Aidi Ventures checking your business and personal credit history for this loan request. Your BVN and NIN are stored encrypted and used only for this purpose.</p>
-        </template>
       </div>
           </div>
           <div class="two">
