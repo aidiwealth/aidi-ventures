@@ -27,6 +27,7 @@
             <p class="av-co">{{ f.company }}</p>
             <h3>{{ f.headline }}</h3>
             <p class="av-who">{{ f.person }}, {{ f.role }}</p>
+            <div class="av-names"><span class="av-nl">{{ f.label }}</span><span v-for="n in f.names" :key="n">{{ n }}</span></div>
           </div>
         </article>
       </div>
@@ -47,9 +48,9 @@ const FEATURED: Feature[] = [
   { company: 'Bumpa', person: 'Kelvin Umechukwu', role: 'CEO', photo: 'bumpa-kelvin-umechukwu.jpg', headline: "Top 10 finalist, Africa's Business Heroes 2026 (7th edition).", label: 'Backed by', names: ['Base10'] }
 ]
 const MORE = [
-  { company: 'Grey', person: 'Idorenyin Obong', role: 'CEO', photo: 'grey-idorenyin-obong.jpg', pos: 'center 20%', headline: 'Cross-border accounts and payments for freelancers and remote workers.' },
-  { company: 'Rayda', person: 'Francis Osifo', role: 'CEO', photo: 'rayda-francis-osifo.jpg', pos: 'center 20%', headline: 'Trusted by Furnished Finders, Chainalysis and RedCloud.' },
-  { company: 'Rank', person: 'Femi Iromini', role: 'CEO', photo: 'rank-femi-iromini.jpg', pos: 'center 15%', headline: 'Community finance, owned and run by the people who use it.' }
+  { company: 'Grey', person: 'Idorenyin Obong', role: 'CEO', photo: 'grey-idorenyin-obong.jpg', pos: 'center 20%', headline: 'Cross-border accounts and payments for freelancers and remote workers.', label: 'Backed by', names: ['Y Combinator', 'Soma Capital'] },
+  { company: 'Rayda', person: 'Francis Osifo', role: 'CEO', photo: 'rayda-francis-osifo.jpg', pos: 'center 20%', headline: 'Trusted by Furnished Finders, Chainalysis and RedCloud.', label: 'Backed by', names: ['Techstars'] },
+  { company: 'Rank', person: 'Femi Iromini', role: 'CEO', photo: 'rank-femi-iromini.jpg', pos: 'center 15%', headline: 'Community finance, owned and run by the people who use it.', label: 'Backed by', names: ['Y Combinator'] }
 ]
 // Logos on R2 (aidi-ventures/logos/); h is the display height, set so each logo covers about the same area.
 const LOGOS: Record<string, { file: string; h: number }> = {
