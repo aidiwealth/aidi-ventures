@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   // Global stylesheet — all design tokens, layout, components live here.
-  css: ['~/assets/css/main.css', '~/assets/css/aidi-group.css'],
+  css: ['~/assets/css/main.css', '~/assets/css/aidi-group.css', '~/assets/css/inner.css'],
 
 app: {
   head: {

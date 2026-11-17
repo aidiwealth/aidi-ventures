@@ -6,7 +6,10 @@
   <div>
     <AppNav />
     <HeroSection />
+    <StorySection />
+    <FoundersSection />
     <PortfolioSection />
+    <QuoteBand />
     <ContactStrip />
     <AppFooter />
   </div>

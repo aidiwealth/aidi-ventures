@@ -6,6 +6,6 @@
 <template>
   <div>
     <NuxtPage />
-    <CookieConsent site="aidiventures.com" />
+    <CookieConsent site="aidiventures.com" privacy="/legal" />
   </div>
 </template>

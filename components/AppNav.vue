@@ -28,6 +28,7 @@
 <script setup lang="ts">
 const config = useRuntimeConfig()
 const parentSiteUrl = config.public.parentSiteUrl as string
+const portfolioBaseUrl = '/'
 const scrolled = ref(false)
 const onScroll = (): void => { scrolled.value = window.scrollY > 10 }
 onMounted(() => { onScroll(); window.addEventListener('scroll', onScroll, { passive: true }) })

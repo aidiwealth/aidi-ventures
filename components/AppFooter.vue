@@ -21,8 +21,11 @@
         <nav class="gf-links" aria-label="Footer">
           <a href="/#portfolio">Portfolio</a>
           <a href="/pitch">Pitch us</a>
+          <a href="/ethos">Ethos</a>
+          <a href="https://theaidigroup.com/insights" target="_blank" rel="noopener">Insights</a>
           <a :href="groupUrl" target="_blank" rel="noopener">The Aidi Group</a>
-          <a href="https://theaidigroup.com/legal" target="_blank" rel="noopener">Legal</a>
+          <a href="/legal">Legal</a>
+          <a href="/aml-policy">AML policy</a>
         </nav>
       </div>
 
