@@ -9,13 +9,14 @@
 /* Story: one centred column with a drop cap, then a full-width strip of photos */
 .av-story { padding: 120px 0 0; background: var(--cream-mid); }
 .av-story-text { max-width: 680px; margin: 0 auto; padding: 0 var(--gutter); }
+.av-story-text p:first-child { margin-top: 0; }
 .av-story-text p { font-family: 'Cormorant Garamond', serif; font-size: clamp(21px, 1.9vw, 25px); line-height: 1.6; color: var(--ink); margin-top: 26px; }
 .av-story-text .eyebrow { display: block; color: var(--blue); }
 .av-drop::first-letter { float: left; font-size: 5.6em; line-height: .82; font-weight: 500; padding: 8px 14px 0 0; color: var(--ink); }
 .av-community { max-width: 680px; margin: 64px auto 0; padding: 0 var(--gutter); }
 .av-community > div { padding-top: 32px; border-top: 1px solid var(--cream-dark); }
 .av-community .eyebrow { display: block; color: var(--blue); }
-.av-community p { font-family: 'Cormorant Garamond', serif; font-size: clamp(21px, 1.9vw, 25px); line-height: 1.6; color: var(--ink); margin-top: 14px; }
+.av-community p { font-family: 'Cormorant Garamond', serif; font-size: clamp(21px, 1.9vw, 25px); line-height: 1.6; color: var(--ink); margin: 0; }
 .av-strip { margin-top: 48px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; padding: 0 10px 10px; }
 .av-strip figure { margin: 0; aspect-ratio: 1 / 1; overflow: hidden; background: var(--cream-dark); }
 .av-strip img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .8s ease; }
