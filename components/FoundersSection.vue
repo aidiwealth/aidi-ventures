@@ -29,18 +29,12 @@
             <p class="av-who">{{ f.person }}, {{ f.role }}</p>
           </div>
         </article>
-        <a class="av-fcard av-pitch" href="/pitch">
-          <span class="eyebrow">Building something?</span>
-          <span class="av-pitch-t">Pitch <em>us</em></span>
-          <span class="av-pitch-a" aria-hidden="true">→</span>
-        </a>
       </div>
 
-    </div>
-
-    <div class="av-backers">
-      <p class="eyebrow">Our founders are backed and recognised by</p>
-      <ul><li v-for="b in BACKERS" :key="b"><img :src="media('logos/' + LOGOS[b].file)" :alt="b" :style="{ height: LOGOS[b].h + 'px' }" loading="lazy"></li></ul>
+      <div class="av-backers">
+        <p class="eyebrow">Our founders are backed and recognised by</p>
+        <ul><li v-for="b in BACKERS" :key="b"><img :src="media('logos/' + LOGOS[b].file)" :alt="b" :style="{ height: LOGOS[b].h + 'px' }" loading="lazy"></li></ul>
+      </div>
     </div>
   </section>
 </template>
@@ -48,7 +42,6 @@
 <script setup lang="ts">
 interface Feature { company: string; person: string; role: string; photo: string; headline: string; label: string; names: string[]; pos?: string }
 const FEATURED: Feature[] = [
-  { company: 'Mercury', person: 'Immad Akhund', role: 'CEO', photo: 'mercury-immad-akhund.jpg', headline: 'Passed $1B in revenue, and on the path to a US bank charter.', label: 'Backed by', names: ['a16z', 'Coatue', 'Sequoia Capital'] },
   { company: 'Formal', person: 'Mokhtar Bacha', role: 'CEO', photo: 'formal-mokhtar.jpg', headline: 'Trusted by Notion, Lovable, Mercury, Asana, Decagon, Cursor and Granola.', label: 'Backed by', names: ['a16z', 'Thrive Capital', 'Y Combinator'] },
   { company: 'Termii', person: 'Idowu Atinuke', role: 'COO', photo: 'termii-atinuke-idowu.jpg', headline: "Named one of Africa's fastest-growing companies by the Financial Times in 2025 and 2026.", label: 'Backed by', names: ['Fintech Collective', 'Y Combinator'] },
   { company: 'Bumpa', person: 'Kelvin Umechukwu', role: 'CEO', photo: 'bumpa-kelvin-umechukwu.jpg', headline: "Top 10 finalist, Africa's Business Heroes 2026 (7th edition).", label: 'Backed by', names: ['Base10'] }

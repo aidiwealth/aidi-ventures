@@ -5,7 +5,7 @@
   <section class="av-quote">
     <blockquote>
       <p>“We back the builders, the operators and the ones who fix it themselves, wherever they start.”</p>
-      <footer><span class="av-qmark" aria-hidden="true"><AidiWordmark /></span><span>Aidi Ventures</span><NuxtLink to="/ethos">Read our ethos →</NuxtLink></footer>
+      <footer><NuxtLink to="/ethos">Read our ethos →</NuxtLink><NuxtLink to="/pitch" class="av-qpitch">Pitch us →</NuxtLink></footer>
     </blockquote>
   </section>
 </template>
