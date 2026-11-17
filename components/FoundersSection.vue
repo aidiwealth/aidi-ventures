@@ -54,7 +54,7 @@ const MORE = [
 // Logos on R2 (aidi-ventures/logos/); h is the display height, set so each logo covers about the same area.
 const LOGOS: Record<string, { file: string; h: number }> = {
   'Y Combinator': { file: 'y-combinator.png', h: 22 }, 'Thrive Capital': { file: 'thrive-capital.png', h: 17 }, 'Abstract Ventures': { file: 'abstract-ventures.png', h: 32 },
-  'Base10': { file: 'base10.png', h: 25 }, 'Google AI Fund': { file: 'google.png', h: 27 }, 'Visa Fintech Accelerator': { file: 'visa-accelerator.png', h: 38 }
+  'a16z': { file: 'a16z.png', h: 26 }, 'Google AI Fund': { file: 'google.png', h: 27 }, 'Visa Fintech Accelerator': { file: 'visa-accelerator.png', h: 38 }
 }
-const BACKERS = ['Y Combinator', 'Thrive Capital', 'Abstract Ventures', 'Base10', 'Google AI Fund', 'Visa Fintech Accelerator']
+const BACKERS = ['Y Combinator', 'Thrive Capital', 'Abstract Ventures', 'a16z', 'Google AI Fund', 'Visa Fintech Accelerator']
 </script>

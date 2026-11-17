@@ -16,7 +16,7 @@
           <span class="gf-divider" aria-hidden="true" />
           <span class="gf-arm" aria-hidden="true">Ventures</span>
         </a>
-        <p class="gf-statement">Backing resilient firms, funds and founders globally.</p>
+        <p class="gf-statement">Backing resilient founders and funds globally.</p>
         <a class="gf-email" :href="'mailto:' + contactEmail">{{ contactEmail }}</a>
         <nav class="gf-links" aria-label="Footer">
           <a href="/#portfolio">Portfolio</a>
