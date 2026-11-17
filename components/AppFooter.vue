@@ -23,7 +23,6 @@
           <a href="/pitch">Pitch us</a>
           <a href="/ethos">Ethos</a>
           <a href="https://theaidigroup.com/insights" target="_blank" rel="noopener">Insights</a>
-          <a :href="groupUrl" target="_blank" rel="noopener">The Aidi Group</a>
           <a href="/legal">Legal</a>
           <a href="/aml-policy">AML policy</a>
         </nav>
@@ -31,12 +30,12 @@
 
       <div class="gf-disclaimer">
         <p><strong>Disclaimer:</strong> Aidi Ventures is the venture investment arm of The Aidi Group. Aidi Ventures and its affiliates are not broker-dealers or custodians. Aidi Ventures may invest as a principal in startups, funds, and other private market opportunities through affiliated entities. In addition, Aidi Ventures may provide advisory, strategic, or operational support to portfolio companies and partners. Such activities may create potential conflicts of interest, including situations where Aidi Ventures or its affiliates have a financial interest in the investments referenced.</p>
-        <p>Investment opportunities referenced on this platform are not offers to sell or solicitations to buy securities. Any participation in investment opportunities is conducted through separately structured legal entities, including funds or special purpose vehicles, and is subject to applicable securities laws and formal offering documentation. In the United States, advisory services to Aidi Ventures funds are provided by Aidi Ventures LLC, which is not registered with the SEC as an investment adviser and relies on an available exemption from registration. In Nigeria, services are delivered through Aidi Technology Limited, subject to applicable local regulations.</p>
+        <p>Investment opportunities referenced on this platform are not offers to sell or solicitations to buy securities. Any participation in investment opportunities is conducted through separately structured legal entities, including funds or special purpose vehicles, and is subject to applicable securities laws and formal offering documentation.</p>
         <p>All investments involve risk, including the potential loss of principal. Past performance is not indicative of future results. Investments in startups and private markets are illiquid, speculative, and subject to substantial risk of loss. Information presented on this site is for informational purposes only and should not be construed as investment, legal, or tax advice, or as an offer or solicitation in any jurisdiction where such services are not authorized. Availability of products and services may vary by location and applicable regulations. Certain opportunities may be available only to qualified or accredited investors.</p>
       </div>
 
       <div class="gf-bottom">
-        Corporate Headquarters: 6472 Camden Ave, Suite 204, San Jose, CA 95120, US&nbsp;&nbsp;·&nbsp;&nbsp;© {{ year }} Aidi Ventures LLC. All rights reserved.
+        Corporate Headquarters: 6472 Camden Ave, Suite 204, San Jose, CA 95120, US&nbsp;&nbsp;·&nbsp;&nbsp;© {{ year }} Aidi Ventures. All rights reserved.
       </div>
     </div>
   </footer>

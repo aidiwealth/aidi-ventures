@@ -31,7 +31,6 @@ const PRINCIPLES = [
         <p class="av-motto">Built by operators. Backed with conviction.</p>
       </div></section>
     </main>
-    <ContactStrip />
     <AppFooter />
   </div>
 </template>

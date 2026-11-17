@@ -60,8 +60,8 @@
           <span class="stat-label">Mandate</span>
         </div>
         <div class="stat-item">
-          <span class="stat-num">$1M+</span>
-          <span class="stat-label">Invested</span>
+          <span class="stat-num">100+</span>
+          <span class="stat-label">Ventures backed</span>
         </div>
       </div>
     </div>

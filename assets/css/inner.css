@@ -73,9 +73,9 @@
 .av-num { font-size: 12px; letter-spacing: .14em; color: var(--gold); }
 .av-item h2 { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: clamp(20px, 2vw, 26px); line-height: 1.2; color: var(--ink); }
 .av-item p { font-size: 15px; line-height: 1.75; color: var(--ink-soft); }
-.av-close { background: var(--ink); padding: 120px 0; }
-.av-close-text { font-family: 'Cormorant Garamond', serif; font-size: clamp(22px, 2.6vw, 32px); line-height: 1.35; color: #fff; }
-.av-motto { margin-top: 32px; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(18px, 1.8vw, 22px); color: var(--gold-light); }
+.av-close { background: #fff; padding: 120px 0; }
+.av-close-text { font-family: 'Cormorant Garamond', serif; font-size: clamp(22px, 2.6vw, 32px); line-height: 1.35; color: var(--ink); }
+.av-motto { margin-top: 32px; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(18px, 1.8vw, 22px); color: var(--blue); }
 .av-prose { max-width: 780px; margin: 0 auto; padding: 56px var(--gutter) 96px; background: #fff; }
 .av-prose h2 { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 26px; color: var(--ink); margin: 40px 0 12px; }
 .av-prose h2:first-child { margin-top: 0; }
