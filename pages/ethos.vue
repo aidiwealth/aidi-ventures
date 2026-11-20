@@ -3,7 +3,7 @@
 -->
 <script setup lang="ts">
 const title = 'Our ethos — Aidi Ventures'
-const description = 'What we believe, and the founders we back.'
+const description = 'What we believe, and the founders we back: technical founders building AI, enterprise software, SaaS and fintech, from Seed to Series B.'
 useHead({ title, link: [{ rel: 'canonical', href: 'https://aidiventures.com/ethos' }], meta: [{ name: 'description', content: description }, { property: 'og:title', content: title }, { property: 'og:description', content: description }] })
 const PRINCIPLES = [
   { title: 'We start as operators.', body: 'Before we backed anyone, we built companies ourselves, and we still do. We know what it takes to ship, sell and hire when no one is watching.' },
@@ -22,6 +22,7 @@ const PRINCIPLES = [
       <section class="av-open"><div class="av-center">
         <p class="av-statement">The builders. The operators. The ones who fix it themselves. The founders who build for the world from wherever they start.</p>
         <p class="av-statement-sub">These are the people we back, and the investors we try to be.</p>
+        <p class="av-statement-sub av-focus">We back technical founders building AI and machine learning, enterprise software, SaaS and fintech, from Seed to Series B, primarily in the US, Canada, the UK and Europe, with selective investments in Africa.</p>
       </div></section>
       <section class="av-principles"><div class="av-wrap"><ol class="av-list">
         <li v-for="(p, i) in PRINCIPLES" :key="p.title" class="av-item"><span class="av-num">{{ String(i + 1).padStart(2, '0') }}</span><h2>{{ p.title }}</h2><p>{{ p.body }}</p></li>
