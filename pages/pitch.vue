@@ -69,7 +69,7 @@
           <div v-if="siteKey" class="human">
             <div ref="captchaEl" />
             <p class="human-status" :data-state="captchaState" aria-live="polite">
-              <span class="dot" aria-hidden="true" />{{ captchaState === 'ok' ? 'Verified as human · protected by Cloudflare Turnstile' : captchaState === 'error' ? 'We could not run the human check' + (captchaCode ? ' (code ' + captchaCode + ')' : '') + '. Refresh the page and try again.' : 'Checking you are human…' }}
+              <span class="dot" aria-hidden="true" />{{ captchaState === 'ok' ? 'Verified as human · protected by Cloudflare Turnstile' : captchaState === 'error' ? captchaHelp : visible ? 'Tick the box above to confirm you are human.' : 'Checking you are human…' }}
             </p>
           </div>
           <p class="small">By submitting, you agree that Aidi Ventures stores these details to review your pitch. See our <a href="https://theaidigroup.com/legal" target="_blank" rel="noopener">privacy notice</a>.</p>
@@ -95,9 +95,12 @@ useHead({
 const config = useRuntimeConfig()
 const siteKey = config.public.turnstileSiteKey as string
 const endpoint = config.public.pitchEndpoint as string
-if (siteKey) useHead({ script: [{ src: 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit', async: true, defer: true }] })
+// Cloudflare's script; if a browser extension or network blocks it, say so rather than spinning forever.
+const blocked = ref(false)
+if (siteKey) useHead({ script: [{ src: 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit', async: true, defer: true, onerror: () => { blocked.value = true; captchaState.value = 'error' } }] })
 
-// Turnstile, rendered after hydration so Vue never removes it. Invisible unless Cloudflare needs an interaction.
+// Turnstile, rendered after hydration so Vue never removes it. Invisible unless Cloudflare needs an interaction; after a
+// failure it comes back as a visible checkbox the founder can click, and every retry starts a fresh check.
 interface Turnstile {
   render: (el: HTMLElement, o: Record<string, unknown>) => string
   reset: (id?: string) => void
@@ -106,32 +109,52 @@ interface Turnstile {
 const captchaState = ref<'checking' | 'ok' | 'error'>('checking')
 const captchaToken = ref('')
 const captchaCode = ref('')
+const visible = ref(false)
 let widgetId: string | undefined
+const tsApi = () => (window as unknown as { turnstile?: Turnstile }).turnstile
+function renderCaptcha() {
+  const ts = tsApi()
+  if (!ts || !captchaEl.value) return false
+  if (widgetId) { try { ts.remove(widgetId) } catch { /* already gone */ } widgetId = undefined }
+  captchaToken.value = ''; captchaState.value = 'checking'
+  widgetId = ts.render(captchaEl.value, {
+    sitekey: siteKey,
+    theme: 'light',
+    appearance: visible.value ? 'always' : 'interaction-only',
+    retry: 'auto',
+    'retry-interval': 2500,
+    'refresh-expired': 'auto',
+    callback: (token: string) => { captchaToken.value = token; captchaCode.value = ''; captchaState.value = 'ok' },
+    'expired-callback': () => { captchaToken.value = ''; captchaState.value = 'checking' },
+    'timeout-callback': () => { captchaToken.value = ''; captchaState.value = 'checking' },
+    'error-callback': (code: string) => {
+      captchaToken.value = ''; captchaCode.value = String(code ?? ''); captchaState.value = 'error'; console.warn('[turnstile] error', code)
+      // The silent check failed: show the checkbox so the founder can complete it themselves.
+      if (!visible.value) { visible.value = true; setTimeout(() => renderCaptcha(), 300) }
+      return true
+    }
+  })
+  return true
+}
 onMounted(() => {
   if (!siteKey) return
   let tries = 0
   const timer = setInterval(() => {
-    const ts = (window as unknown as { turnstile?: Turnstile }).turnstile
-    if (ts && captchaEl.value) {
-      clearInterval(timer)
-      widgetId = ts.render(captchaEl.value, {
-        sitekey: siteKey,
-        theme: 'light',
-        appearance: 'interaction-only',
-        'refresh-expired': 'auto',
-        callback: (token: string) => { captchaToken.value = token; captchaState.value = 'ok' },
-        'expired-callback': () => { captchaToken.value = ''; captchaState.value = 'checking' },
-        'error-callback': (code: string) => { captchaToken.value = ''; captchaCode.value = String(code ?? ''); captchaState.value = 'error'; console.warn('[turnstile] error', code); return true }
-      })
-    } else if (++tries > 100) { clearInterval(timer); captchaState.value = 'error' }
+    if (renderCaptcha()) clearInterval(timer)
+    else if (blocked.value || ++tries > 150) { clearInterval(timer); blocked.value = true; captchaState.value = 'error' }
   }, 100)
 })
-onBeforeUnmount(() => { const ts = (window as unknown as { turnstile?: Turnstile }).turnstile; if (ts && widgetId) ts.remove(widgetId) })
-function resetCaptcha() {
-  const ts = (window as unknown as { turnstile?: Turnstile }).turnstile
-  captchaToken.value = ''; captchaState.value = 'checking'
-  if (ts && widgetId) ts.reset(widgetId)
-}
+onBeforeUnmount(() => { const ts = tsApi(); if (ts && widgetId) ts.remove(widgetId) })
+// A fresh check (each token works once; after an error, a visible one).
+function resetCaptcha() { if (!renderCaptcha()) { captchaToken.value = ''; captchaState.value = 'checking' } }
+// What to tell the founder when the check fails, by Cloudflare's error code.
+const captchaHelp = computed(() => {
+  if (blocked.value) return 'Your browser or network blocked the human check from Cloudflare (challenges.cloudflare.com). Turn off ad or tracker blockers or VPN for this page, or try another browser, then refresh.'
+  const c = captchaCode.value
+  if (/^(300|600)/.test(c)) return 'Cloudflare could not verify this browser (code ' + c + '). Tick the box above if it shows; otherwise turn off VPN or privacy extensions, or try another browser.'
+  if (/^110/.test(c)) return 'The human check is misconfigured on our side (code ' + c + '). Please email us and we will look at your pitch directly.'
+  return 'The human check did not finish' + (c ? ' (code ' + c + ')' : '') + '. Tick the box above if it shows, or refresh the page.'
+})
 
 const form = reactive({ funding_type: 'equity', loan_amount: '', loan_currency: 'NGN', loan_tenor_months: '', loan_purpose: '', monthly_revenue: '', rc_number: '', bvn: '', nin: '', dob: '', phone: '',
   founder_name: '', email: '', company: '', website: '', one_liner: '', stage: '', sector: '', country: '',
@@ -157,7 +180,13 @@ async function submit() {
   const raising = form.raising_usd.replace(/[^0-9]/g, '')
   busy.value = true
   const token = siteKey ? await turnstileToken() : ''
-  if (siteKey && !token) { busy.value = false; error.value = 'We could not confirm you are human. Please wait a moment and try again.'; return }
+  if (siteKey && !token) {
+    busy.value = false
+    // Start a fresh, visible check so the next try can pass (a failed check never recovers on its own).
+    if (!blocked.value) { visible.value = true; resetCaptcha() }
+    error.value = blocked.value ? captchaHelp.value : 'Please confirm you are human using the box above, then send again.'
+    return
+  }
   try {
     const res = await fetch(endpoint, {
       method: 'POST',
@@ -178,7 +207,7 @@ async function submit() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   } catch (e) {
     error.value = e instanceof Error ? e.message : 'We could not send your pitch. Please try again.'
-    if (siteKey) resetCaptcha() // each token works once
+    if (siteKey) { if (/check/i.test(error.value)) visible.value = true; resetCaptcha() } // each token works once; a refused check comes back as a visible box
   } finally {
     busy.value = false
   }
