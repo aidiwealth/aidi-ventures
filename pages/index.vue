@@ -7,6 +7,7 @@
     <AppNav />
     <HeroSection />
     <StorySection />
+    <ThesisSection />
     <FoundersSection />
     <PortfolioSection />
     <QuoteBand />
