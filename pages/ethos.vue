@@ -15,12 +15,12 @@ const PRINCIPLES = [
 // Where we want to see AI change the work.
 // Where we want to see AI change the work.
 const WHERE = [
-  { title: 'How money moves', body: 'Payments, lending and treasury that are faster and safer across borders, including credit for the businesses banks cannot score.', p: 'Grey · Rank · Mercury' },
-  { title: 'How businesses communicate', body: 'AI that talks to customers on every channel, in their own language, and resolves the issue instead of just routing it.', p: 'Termii · Sotel' },
-  { title: 'How data is secured', body: 'AI that verifies who people are, stops fraud before it happens and keeps personal data private.', p: 'Termii Fraud Guard · CreditChek' },
-  { title: 'How businesses run', body: 'AI agents for finance, compliance, IT and operations, so a 10-person company can work like a 100-person one.', p: 'Rayda · Formal' },
-  { title: 'How commerce works', body: 'Enterprise-grade tools that help the smallest merchants sell, price, restock and get paid.', p: 'Bumpa' },
-  { title: 'How intelligence reaches people', body: 'Small, efficient models that work on everyday devices, offline and in local languages, for the next billion users.', p: 'Telroi' }
+  { title: 'How money moves', body: 'Payments, lending and treasury that are faster and safer across borders, including credit for the businesses banks cannot score.' },
+  { title: 'How businesses communicate', body: 'AI that talks to customers on every channel, in their own language, and resolves the issue instead of just routing it.' },
+  { title: 'How data is secured', body: 'AI that verifies who people are, stops fraud before it happens and keeps personal data private.' },
+  { title: 'How businesses run', body: 'AI agents for finance, compliance, IT and operations, so a 10-person company can work like a 100-person one.' },
+  { title: 'How commerce works', body: 'Enterprise-grade tools that help the smallest merchants sell, price, restock and get paid.' },
+  { title: 'How intelligence reaches people', body: 'Small, efficient models that work on everyday devices, offline and in local languages, for the next billion users.' }
 ]
 // How we work with founders, from the founder's side.
 const STEPS = [
@@ -49,7 +49,7 @@ const STEPS = [
         <div class="av-wrap">
           <div class="av-thesis-head"><h2 class="av-title">Where we want to see <em>AI</em> change the work.</h2></div>
           <ol class="av-areas">
-            <li v-for="(a, i) in WHERE" :key="a.title"><span class="av-anum">{{ String(i + 1).padStart(2, '0') }}</span><h3>{{ a.title }}</h3><p>{{ a.body }}</p><span class="av-apf">{{ a.p }}</span></li>
+            <li v-for="(a, i) in WHERE" :key="a.title"><span class="av-anum">{{ String(i + 1).padStart(2, '0') }}</span><h3>{{ a.title }}</h3><p>{{ a.body }}</p></li>
           </ol>
         </div>
       </section>
